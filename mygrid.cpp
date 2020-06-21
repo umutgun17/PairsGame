@@ -3,15 +3,17 @@
 
 MyGrid::MyGrid(QTimer *timer) : QGridLayout(){
     this->timer = timer;
+    openCardCount=0;
+
 }
 
 void MyGrid::check_colors(){
-    bool all_same = true;
+ /*   bool all_same = true;
     QString prev = "";
     for (int i = 0; i < this->count(); ++i)
     {
       Card *widget = qobject_cast<Card*> (this->itemAt(i)->widget());
-
+   
     }
 
     if(all_same){
@@ -21,4 +23,5 @@ void MyGrid::check_colors(){
         msgBox.exec();
         msgBox.setStandardButtons(QMessageBox::Cancel);
     }
+    */
 }
