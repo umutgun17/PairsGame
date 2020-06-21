@@ -12,8 +12,6 @@ class MyGrid : public QGridLayout
 public:
     MyGrid(QTimer* timer);
     QTimer* timer;
-    int openCardCount;
-    Card *preCard=NULL;
 
 public slots:
     void check_colors();

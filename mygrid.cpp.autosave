@@ -9,7 +9,7 @@ MyGrid::MyGrid(QTimer *timer) : QGridLayout(){
 void MyGrid::check_colors(){
 
     Card* temp = 0;
-    int countDisable = 0;
+    int countDisable = 1; // 
     qInfo() << "----------";
     for (int i = 0; i < this->count(); ++i)
     {

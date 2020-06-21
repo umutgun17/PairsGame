@@ -9,11 +9,10 @@ class Card : public QPushButton
 
 public:
 
-    Card(const QString& text,int & openCardCount,Card * preCard, QWidget* parent = 0);
+    Card(const QString& text, QWidget* parent = 0);
     QString textField;
     QString status; // open close disabled
-    int *openCardCount;
-    Card * preCard;
+
 public slots:
     void onPressed();
 };

@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
 
     for(int row=0; row<5; row++){
         for(int col=0; col<6; col++){
-            Card *buttons = new Card(arr[row*6+col], grid->openCardCount,grid->preCard );
+            Card *buttons = new Card(arr[row*6+col]);
             QObject::connect(buttons, SIGNAL(clicked()), buttons, SLOT(onPressed()));
             QObject::connect(buttons, SIGNAL(clicked()), grid, SLOT(check_colors()));
             grid->addWidget(buttons, row, col, 1, 1);
