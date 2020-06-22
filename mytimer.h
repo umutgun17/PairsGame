@@ -14,7 +14,6 @@ public:
     QTimer *timer;
     QLabel *label;
     int counter;
-
 };
 
 #endif // MYTIMER_H

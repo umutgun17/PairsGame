@@ -19,14 +19,13 @@ class MyGrid : public QGridLayout
 public:
     // it takes pointer of timer Label which shows time
     // and score label which shows score
-    MyGrid(MyTimer* timerLabel,QLabel* score);
-    MyTimer* timerLabel;
-    QLabel* scoreLabel;
+    MyGrid(MyTimer *timerLabel, QLabel *score);
+    MyTimer *timerLabel;
+    QLabel *scoreLabel;
     int scoreInt;
 public slots:
     void check_matches();
     void timeoutSlot();
 };
-
 
 #endif // MYGRID_H

@@ -10,9 +10,7 @@ class MyNewGame : public QPushButton
     Q_OBJECT
 
 public:
-
-    MyNewGame(const QString& text, QWidget* parent = 0);
-
+    MyNewGame(const QString &text, QWidget *parent = 0);
 
 public slots:
     void onPressedQuit();

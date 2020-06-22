@@ -9,17 +9,18 @@
 #include "mygrid.h"
 #include "card.h"
 #include "mynewgame.h"
-#include<QDebug>
+#include <QDebug>
 
 // shuffle function to change index of elements
-std::vector<QString> shuffle(std::vector<QString> arr){
+std::vector<QString> shuffle(std::vector<QString> arr)
+{
     std::srand(std::time(0));
-    for(int i=0;i<1000;i++){
-        std::swap(arr.at(rand()%(arr.size())),arr.at(rand()%(arr.size())));
+    for (int i = 0; i < 1000; i++)
+    {
+        std::swap(arr.at(rand() % (arr.size())), arr.at(rand() % (arr.size())));
     }
     return arr;
 }
-
 
 int main(int argc, char *argv[])
 {
@@ -39,10 +40,10 @@ int main(int argc, char *argv[])
     QHBoxLayout *hLayout = new QHBoxLayout();
 
     // Time Label object
-    MyTimer * myTimer= new MyTimer();
+    MyTimer *myTimer = new MyTimer();
     hLayout->addWidget(myTimer->label);
 
-      // Score Label object
+    // Score Label object
     QLabel *score = new QLabel;
     score->setText("Score: 0");
     hLayout->addWidget(score);
@@ -68,24 +69,27 @@ int main(int argc, char *argv[])
     MyGrid *grid = new MyGrid(myTimer, score);
 
     // word list
-    std::vector<QString> fullList=std::vector<QString>{"death", "agency", "union", "tea", "significance", "unit", "category",
-            "enthusiasm", "disease", "girlfriend", "trainer", "role", "safety", "sister", "atmosphere","umut","gun","emin","deniz","boun","cmpe","2020","230" };
+    std::vector<QString> fullList = std::vector<QString>{"death", "agency", "union", "tea", "significance", "unit", "category",
+                                                         "enthusiasm", "disease", "girlfriend", "trainer", "role", "safety", "sister", "atmosphere", "umut", "gun", "emin", "deniz", "boun", "cmpe", "2020", "230"};
 
     // shuffled vector
-    std::vector<QString> tempfullList=shuffle(fullList);
+    std::vector<QString> tempfullList = shuffle(fullList);
 
     // get first 15 card
-    std::vector<QString> gridList=std::vector<QString>();
-    for(int a=0;a<15;a++){
+    std::vector<QString> gridList = std::vector<QString>();
+    for (int a = 0; a < 15; a++)
+    {
         gridList.push_back(tempfullList[a]);
         gridList.push_back(tempfullList[a]);
     }
-    gridList=shuffle(gridList);
+    gridList = shuffle(gridList);
 
     // fill grid
-    for(int row=0; row<5; row++){
-        for(int col=0; col<6; col++){
-            Card *buttons = new Card(gridList[row*6+col]);
+    for (int row = 0; row < 5; row++)
+    {
+        for (int col = 0; col < 6; col++)
+        {
+            Card *buttons = new Card(gridList[row * 6 + col]);
             QObject::connect(buttons, SIGNAL(clicked()), buttons, SLOT(onPressed()));
             QObject::connect(buttons, SIGNAL(clicked()), grid, SLOT(check_matches()));
             grid->addWidget(buttons, row, col, 1, 1);
@@ -105,4 +109,3 @@ int main(int argc, char *argv[])
 
     return app.exec();
 }
-

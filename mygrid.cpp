@@ -2,10 +2,11 @@
 
 // Game Cards block
 // it handles logic of game
-MyGrid::MyGrid(MyTimer *timerLabel,QLabel* score) : QGridLayout(){
+MyGrid::MyGrid(MyTimer *timerLabel, QLabel *score) : QGridLayout()
+{
     this->timerLabel = timerLabel;
-    this->scoreLabel=score;
-    this->scoreInt=0;
+    this->scoreLabel = score;
+    this->scoreInt = 0;
 
     // connect timeout to timeoutslot for checking time limit
     connect(timerLabel->timer, SIGNAL(timeout()), this, SLOT(timeoutSlot()));
@@ -13,39 +14,43 @@ MyGrid::MyGrid(MyTimer *timerLabel,QLabel* score) : QGridLayout(){
 
 // this method is triggered when a button is clicked
 // it traverses all cards and checks if a match exists or not
-void MyGrid::check_matches(){
+void MyGrid::check_matches()
+{
 
     // "temp" keeps previous Card Object
-    Card* temp = 0;
+    Card *temp = 0;
 
     // iterating all card in grid
     for (int i = 0; i < this->count(); ++i)
     {
         // cast grid item to card
-        Card *widget = qobject_cast<Card*> (this->itemAt(i)->widget());
+        Card *widget = qobject_cast<Card *>(this->itemAt(i)->widget());
 
         // if current card is enabled and open( text is open )
         // continue check
-        if(widget->isEnabled() && widget->text() != "?"){
+        if (widget->isEnabled() && widget->text() != "?")
+        {
 
             // if previous card exist and current card is not closed
-            if(temp != 0 && temp->text() != "?"){
+            if (temp != 0 && temp->text() != "?")
+            {
 
                 // if previous card and current card matches
                 // make them disabled and increase score
-                if(temp->text() == widget->text()){
+                if (temp->text() == widget->text())
+                {
                     temp->setEnabled(false);
-                    temp->status="done";
+                    temp->status = "done";
                     widget->setEnabled(false);
-                    widget->status="done";
-                    this->scoreInt+=1;
-                    this->scoreLabel->setText("Score : "+ QString::number(this->scoreInt));
+                    widget->status = "done";
+                    this->scoreInt += 1;
+                    this->scoreLabel->setText("Score : " + QString::number(this->scoreInt));
                     temp = 0;
-
                 }
                 // else, if they are not same, show them for miliseconds
                 // and close them
-                else {
+                else
+                {
 
                     QEventLoop loop;
                     QTimer::singleShot(300, &loop, &QEventLoop::quit);
@@ -69,19 +74,19 @@ void MyGrid::check_matches(){
 
             // set previous card
             temp = widget;
-
         }
     }
 
     // if gamer reaches max score, game finished
-    if( this->scoreInt == 15) {
+    if (this->scoreInt == 15)
+    {
         // stop timer
         this->timerLabel->timer->stop();
 
         // hide all cards
         for (int i = 0; i < this->count(); ++i)
         {
-            Card *widget = qobject_cast<Card*> (this->itemAt(i)->widget());
+            Card *widget = qobject_cast<Card *>(this->itemAt(i)->widget());
             widget->hide();
         }
 
@@ -91,28 +96,27 @@ void MyGrid::check_matches(){
         msgBox.exec();
         msgBox.setStandardButtons(QMessageBox::Ok);
     }
-
-
 }
-
 
 // it is triggered for each second
 // it checks
-void MyGrid::timeoutSlot(){
+void MyGrid::timeoutSlot()
+{
     // time
     timerLabel->counter += 1;
     // label
-    timerLabel->label->setText("Time (secs): "+ QString::number(timerLabel->counter));
+    timerLabel->label->setText("Time (secs): " + QString::number(timerLabel->counter));
 
     // time limit check
-    if(timerLabel->counter>=180){
+    if (timerLabel->counter >= 180)
+    {
         // stop timer
         this->timerLabel->timer->stop();
 
         // hide all cards
         for (int i = 0; i < this->count(); ++i)
         {
-            Card *widget = qobject_cast<Card*> (this->itemAt(i)->widget());
+            Card *widget = qobject_cast<Card *>(this->itemAt(i)->widget());
             widget->hide();
         }
 
@@ -121,6 +125,5 @@ void MyGrid::timeoutSlot(){
         msgBox.setText("You lose!");
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.exec();
-
     }
 }
