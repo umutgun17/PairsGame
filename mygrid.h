@@ -3,21 +3,29 @@
 #include <QGridLayout>
 #include <QMessageBox>
 #include <QTimer>
- #include "card.h"
 #include <QLabel>
+#include <QEventLoop>
+#include "mytimer.h"
+#include "card.h"
 
+// Card Game Main Block
+// it checks score and match
+// it checks time
+// it has logic of the game
 class MyGrid : public QGridLayout
 {
     Q_OBJECT
 
 public:
-    MyGrid(QTimer* timer,QLabel* score);
-    QTimer* timer;
+    // it takes pointer of timer Label which shows time
+    // and score label which shows score
+    MyGrid(MyTimer* timerLabel,QLabel* score);
+    MyTimer* timerLabel;
     QLabel* scoreLabel;
     int scoreInt;
-
 public slots:
-    void check_colors();
+    void check_matches();
+    void timeoutSlot();
 };
 
 

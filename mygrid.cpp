@@ -1,17 +1,17 @@
 #include "mygrid.h"
-#include "card.h"
-#include <QEventLoop>
-#include<QDebug>
-MyGrid::MyGrid(QTimer *timer,QLabel* score) : QGridLayout(){
-    this->timer = timer;
+
+
+MyGrid::MyGrid(MyTimer *timerLabel,QLabel* score) : QGridLayout(){
+    this->timerLabel = timerLabel;
     this->scoreLabel=score;
     this->scoreInt=0;
+
+    connect(timerLabel->timer, SIGNAL(timeout()), this, SLOT(timeoutSlot()));
 }
 
-void MyGrid::check_colors(){
+void MyGrid::check_matches(){
 
     Card* temp = 0;
-    qInfo() << "----------";
     for (int i = 0; i < this->count(); ++i)
     {
 
@@ -19,29 +19,27 @@ void MyGrid::check_colors(){
 
 
 
-        if(widget->isEnabled() && widget->text() != "..."){
+        if(widget->isEnabled() && widget->text() != "?"){
 
 
 
-            if(temp != 0 && temp->text() != "..."){
+            if(temp != 0 && temp->text() != "?"){
                 if(temp->text() == widget->text()){
                     temp->setEnabled(false);
                     temp->status="done";
                     widget->setEnabled(false);
                     widget->status="done";
-                    qInfo() <<"done  geliyor "<<temp->text()<<"-"<<widget->textField;
-                    this->scoreInt+=2;
+                    this->scoreInt+=1;
                     this->scoreLabel->setText("Score : "+ QString::number(this->scoreInt));
                     temp = 0;
 
                 } else {
 
                     QEventLoop loop;
-                    QTimer::singleShot(500, &loop, &QEventLoop::quit);
+                    QTimer::singleShot(300, &loop, &QEventLoop::quit);
                     loop.exec();
-                    qInfo() <<"closed geliyor "<<temp->text();
 
-                    temp->setText("...");
+                    temp->setText("?");
                     temp->status = "closed";
                     QPalette pal = temp->palette();
                     pal.setColor(QPalette::Button, QColor(Qt::green));
@@ -51,7 +49,7 @@ void MyGrid::check_colors(){
                     pal2.setColor(QPalette::Button, QColor(Qt::green));
                     widget->setPalette(pal2);
 
-                    widget->setText("...");
+                    widget->setText("?");
                     widget->status = "closed";
                     temp = 0;
                 }
@@ -61,13 +59,12 @@ void MyGrid::check_colors(){
 
         }
 
-        qInfo() << "C++ Style Info Message" << widget->isEnabled()<<" -  "<<widget->status<<"  score:"<<  this->scoreInt;
 
 
     }
 
-    if( this->scoreInt == 30) {
-        this->timer->stop();
+    if( this->scoreInt == 15) {
+        this->timerLabel->timer->stop();
 
         for (int i = 0; i < this->count(); ++i)
         {
@@ -78,8 +75,28 @@ void MyGrid::check_colors(){
         QMessageBox msgBox;
         msgBox.setText("You won!");
         msgBox.exec();
-        msgBox.setStandardButtons(QMessageBox::Cancel);
+        msgBox.setStandardButtons(QMessageBox::Ok);
     }
 
 
+}
+
+void MyGrid::timeoutSlot(){
+    timerLabel->counter += 1;
+    timerLabel->label->setText("Time (secs): "+ QString::number(timerLabel->counter));
+    if(timerLabel->counter>=30){
+        this->timerLabel->timer->stop();
+
+        for (int i = 0; i < this->count(); ++i)
+        {
+            Card *widget = qobject_cast<Card*> (this->itemAt(i)->widget());
+            widget->hide();
+        }
+
+        QMessageBox msgBox;
+        msgBox.setText("You failed!");
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.exec();
+
+    }
 }

@@ -9,11 +9,13 @@
 #include "mygrid.h"
 #include "card.h"
 #include "myquit.h"
+#include<QDebug>
 
-
+// shuffle function to change index of elements
 std::vector<QString> shuffle(std::vector<QString> arr){
+    std::srand(std::time(0));
     for(int i=0;i<1000;i++){
-        std::swap(arr.at(rand()%arr.size()),arr.at(rand()%arr.size()));
+        std::swap(arr.at(rand()%(arr.size())),arr.at(rand()%(arr.size())));
     }
     return arr;
 }
@@ -25,8 +27,8 @@ int main(int argc, char *argv[])
     QWidget *main = new QWidget;
     QVBoxLayout *vLayout = new QVBoxLayout(main);
     QHBoxLayout *hLayout = new QHBoxLayout();
-    MyTimer myTimer;
-    hLayout->addWidget(myTimer.label);
+    MyTimer * myTimer= new MyTimer();
+    hLayout->addWidget(myTimer->label);
 
     QLabel *score = new QLabel;
     score->setText("Score: 0");
@@ -46,7 +48,7 @@ int main(int argc, char *argv[])
 
     vLayout->addLayout(hLayout);
 
-    MyGrid *grid = new MyGrid(myTimer.timer, score);
+    MyGrid *grid = new MyGrid(myTimer, score);
 
 
     std::vector<QString> fullList=std::vector<QString>{"death", "agency", "union", "tea", "significance", "unit", "category",
@@ -67,7 +69,7 @@ int main(int argc, char *argv[])
         for(int col=0; col<6; col++){
             Card *buttons = new Card(gridList[row*6+col]);
             QObject::connect(buttons, SIGNAL(clicked()), buttons, SLOT(onPressed()));
-            QObject::connect(buttons, SIGNAL(clicked()), grid, SLOT(check_colors()));
+            QObject::connect(buttons, SIGNAL(clicked()), grid, SLOT(check_matches()));
             grid->addWidget(buttons, row, col, 1, 1);
         }
     }

@@ -1,7 +1,7 @@
 #include "card.h"
-#include <QMessageBox>
-#include <QDebug>
-Card::Card(const QString& text, QWidget* parent) : QPushButton("...", parent)
+
+
+Card::Card(const QString& text, QWidget* parent) : QPushButton("?", parent)
 {
     textField = text;
     QPalette pal = palette();
@@ -16,6 +16,7 @@ Card::Card(const QString& text, QWidget* parent) : QPushButton("...", parent)
 
 }
 void Card::onPressed(){
+    // flip card from closed state to open state
     if(status=="closed"){
         QPalette pal = palette();
         pal.setColor(QPalette::Button, QColor(Qt::gray));
@@ -24,24 +25,20 @@ void Card::onPressed(){
         setPalette(pal);
         setText(textField);
         update();
-     //   status="open";
+      // status="open";  // it enable to flip card without pair
     }
+    // flip card from open state to closed state
     else if(status=="open"){
         QPalette pal = palette();
         pal.setColor(QPalette::Button, QColor(Qt::green));
         setFlat(true);
         setAutoFillBackground(true);
         setPalette(pal);
-        setText("...");
+        setText("?");
         update();
         status="closed";
-        qInfo() <<"closed geliyor ";
-
     }
 
 }
-void Card::onPressedQuit(){
-    qApp->quit();
-    QProcess::startDetached(qApp->arguments()[0], qApp->arguments());
-}
+
 

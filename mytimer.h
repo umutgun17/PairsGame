@@ -4,6 +4,7 @@
 #include <QLabel>
 #include <QMessageBox>
 
+//  time Label which shows time
 class MyTimer : public QObject
 {
     Q_OBJECT
@@ -14,8 +15,6 @@ public:
     QLabel *label;
     int counter;
 
-public slots:
-    void MyTimerSlot();
 };
 
 #endif // MYTIMER_H
