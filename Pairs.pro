@@ -5,11 +5,11 @@ SOURCES += \
     Main.cpp \
     card.cpp \
     mygrid.cpp \
-    myquit.cpp \
+    mynewgame.cpp \
     mytimer.cpp
 
 HEADERS += \
     card.h \
     mygrid.h \
-    myquit.h \
+    mynewgame.h \
     mytimer.h

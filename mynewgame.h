@@ -1,21 +1,21 @@
-#ifndef MYQUIT_H
-#define MYQUIT_H
+#ifndef MYNEWGAME_H
+#define MYNEWGAME_H
 #include <QPushButton>
 #include <QPalette>
 #include <QApplication>
 #include <QProcess>
 
-class MyQuit : public QPushButton
+class MyNewGame : public QPushButton
 {
     Q_OBJECT
 
 public:
 
-    MyQuit(const QString& text, QWidget* parent = 0);
+    MyNewGame(const QString& text, QWidget* parent = 0);
 
 
 public slots:
     void onPressedQuit();
 };
 
-#endif // MYQUIT_H
+#endif // MYNEWGAME_H
