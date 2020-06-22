@@ -18,7 +18,7 @@ Card::Card(const QString& text, QWidget* parent) : QPushButton("...", parent)
 void Card::onPressed(){
     if(status=="closed"){
         QPalette pal = palette();
-        pal.setColor(QPalette::Button, QColor(Qt::white));
+        pal.setColor(QPalette::Button, QColor(Qt::gray));
         setFlat(true);
         setAutoFillBackground(true);
         setPalette(pal);
@@ -40,5 +40,8 @@ void Card::onPressed(){
     }
 
 }
-
+void Card::onPressedQuit(){
+    qApp->quit();
+    QProcess::startDetached(qApp->arguments()[0], qApp->arguments());
+}
 

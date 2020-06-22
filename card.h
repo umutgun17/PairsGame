@@ -1,7 +1,9 @@
-#ifndef COLORBUTTON_H
-#define COLORBUTTON_H
+#ifndef CARD_H
+#define CARD_H
 #include <QPushButton>
 #include <QPalette>
+#include <QApplication>
+#include <QProcess>
 
 class Card : public QPushButton
 {
@@ -15,6 +17,7 @@ public:
 
 public slots:
     void onPressed();
+    void onPressedQuit();
 };
 
-#endif // COLORBUTTON_H
+#endif // CARD_H

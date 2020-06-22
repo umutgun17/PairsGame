@@ -8,6 +8,7 @@
 #include "mytimer.h"
 #include "mygrid.h"
 #include "card.h"
+#include "myquit.h"
 
 int main(int argc, char *argv[])
 {
@@ -25,9 +26,10 @@ int main(int argc, char *argv[])
     QSpacerItem *hSpacer = new QSpacerItem(0, 0, QSizePolicy::Expanding);
     hLayout->addSpacerItem(hSpacer);
 
-    QPushButton *newBtn = new QPushButton("New Game");
+
+    MyQuit *newBtn = new MyQuit("New Game");
     hLayout->addWidget(newBtn);
-    QObject::connect(newBtn, SIGNAL(clicked()), &app, SLOT(quit()));
+    QObject::connect(newBtn, SIGNAL(clicked()), newBtn, SLOT(onPressedQuit()));
 
     QPushButton *quitBtn = new QPushButton("Quit");
     hLayout->addWidget(quitBtn);
@@ -37,36 +39,8 @@ int main(int argc, char *argv[])
 
     MyGrid *grid = new MyGrid(myTimer.timer, score);
 
-    QString arr[]={"death",
-                           "agency",
-                           "union",
-                           "tea",
-                           "significance",
-                           "unit",
-                           "category",
-                           "enthusiasm",
-                           "disease",
-                           "girlfriend",
-                           "trainer",
-                           "role",
-                           "safety",
-                           "sister",
-                           "atmosphere",
-                   "death",
-                                              "agency",
-                                              "union",
-                                              "tea",
-                                              "significance",
-                                              "unit",
-                                              "category",
-                                              "enthusiasm",
-                                              "disease",
-                                              "girlfriend",
-                                              "trainer",
-                                              "role",
-                                              "safety",
-                                              "sister",
-                                              "atmosphere"};
+    QString arr[]={"death", "agency", "union", "tea", "significance", "unit", "category", "enthusiasm", "disease", "girlfriend", "trainer", "role", "safety", "sister", "atmosphere",
+                   "death", "agency", "union", "tea", "significance", "unit", "category", "enthusiasm", "disease", "girlfriend", "trainer", "role", "safety", "sister", "atmosphere"};
 
     // shuffle arr TODO
 

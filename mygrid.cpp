@@ -68,8 +68,15 @@ void MyGrid::check_colors(){
 
     if( this->scoreInt == 30) {
         this->timer->stop();
+
+        for (int i = 0; i < this->count(); ++i)
+        {
+            Card *widget = qobject_cast<Card*> (this->itemAt(i)->widget());
+            widget->hide();
+        }
+
         QMessageBox msgBox;
-        msgBox.setText("win");
+        msgBox.setText("You won!");
         msgBox.exec();
         msgBox.setStandardButtons(QMessageBox::Cancel);
     }
