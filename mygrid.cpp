@@ -2,14 +2,15 @@
 #include "card.h"
 #include <QEventLoop>
 #include<QDebug>
-MyGrid::MyGrid(QTimer *timer) : QGridLayout(){
+MyGrid::MyGrid(QTimer *timer,QLabel* score) : QGridLayout(){
     this->timer = timer;
+    this->scoreLabel=score;
+    this->scoreInt=0;
 }
 
 void MyGrid::check_colors(){
 
     Card* temp = 0;
-    int countDisable = 1; // ?????
     qInfo() << "----------";
     for (int i = 0; i < this->count(); ++i)
     {
@@ -22,11 +23,15 @@ void MyGrid::check_colors(){
 
 
 
-            if(temp != 0 && temp->text() != ""){
+            if(temp != 0 && temp->text() != "..."){
                 if(temp->text() == widget->text()){
                     temp->setEnabled(false);
+                    temp->status="done";
                     widget->setEnabled(false);
-
+                    widget->status="done";
+                    qInfo() <<"done  geliyor "<<temp->text()<<"-"<<widget->textField;
+                    this->scoreInt+=2;
+                    this->scoreLabel->setText("Score : "+ QString::number(this->scoreInt));
                     temp = 0;
 
                 } else {
@@ -34,10 +39,10 @@ void MyGrid::check_colors(){
                     QEventLoop loop;
                     QTimer::singleShot(500, &loop, &QEventLoop::quit);
                     loop.exec();
+                    qInfo() <<"closed geliyor "<<temp->text();
 
                     temp->setText("...");
                     temp->status = "closed";
-
                     QPalette pal = temp->palette();
                     pal.setColor(QPalette::Button, QColor(Qt::green));
                     temp->setPalette(pal);
@@ -56,14 +61,13 @@ void MyGrid::check_colors(){
 
         }
 
-        qInfo() << "C++ Style Info Message" << widget->isEnabled();
-        if(!widget->isEnabled()) {
-            countDisable ++;
-        }
+        qInfo() << "C++ Style Info Message" << widget->isEnabled()<<" -  "<<widget->status<<"  score:"<<  this->scoreInt;
+
 
     }
 
-    if(countDisable == 30) {
+    if( this->scoreInt == 30) {
+        this->timer->stop();
         QMessageBox msgBox;
         msgBox.setText("win");
         msgBox.exec();

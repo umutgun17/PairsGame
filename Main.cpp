@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 
     vLayout->addLayout(hLayout);
 
-    MyGrid *grid = new MyGrid(myTimer.timer);
+    MyGrid *grid = new MyGrid(myTimer.timer, score);
 
     QString arr[]={"death",
                            "agency",

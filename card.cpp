@@ -1,5 +1,6 @@
 #include "card.h"
 #include <QMessageBox>
+#include <QDebug>
 Card::Card(const QString& text, QWidget* parent) : QPushButton("...", parent)
 {
     textField = text;
@@ -17,13 +18,13 @@ Card::Card(const QString& text, QWidget* parent) : QPushButton("...", parent)
 void Card::onPressed(){
     if(status=="closed"){
         QPalette pal = palette();
-        pal.setColor(QPalette::Button, QColor(Qt::black));
+        pal.setColor(QPalette::Button, QColor(Qt::white));
         setFlat(true);
         setAutoFillBackground(true);
         setPalette(pal);
         setText(textField);
         update();
-        status="open";
+     //   status="open";
     }
     else if(status=="open"){
         QPalette pal = palette();
@@ -34,6 +35,8 @@ void Card::onPressed(){
         setText("...");
         update();
         status="closed";
+        qInfo() <<"closed geliyor ";
+
     }
 
 }
