@@ -10,6 +10,15 @@
 #include "card.h"
 #include "myquit.h"
 
+
+std::vector<QString> shuffle(std::vector<QString> arr){
+    for(int i=0;i<1000;i++){
+        std::swap(arr.at(rand()%arr.size()),arr.at(rand()%arr.size()));
+    }
+    return arr;
+}
+
+
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
@@ -39,16 +48,24 @@ int main(int argc, char *argv[])
 
     MyGrid *grid = new MyGrid(myTimer.timer, score);
 
-    QString arr[]={"death", "agency", "union", "tea", "significance", "unit", "category", "enthusiasm", "disease", "girlfriend", "trainer", "role", "safety", "sister", "atmosphere",
-                   "death", "agency", "union", "tea", "significance", "unit", "category", "enthusiasm", "disease", "girlfriend", "trainer", "role", "safety", "sister", "atmosphere"};
 
-    // shuffle arr TODO
+    std::vector<QString> fullList=std::vector<QString>{"death", "agency", "union", "tea", "significance", "unit", "category",
+            "enthusiasm", "disease", "girlfriend", "trainer", "role", "safety", "sister", "atmosphere"           };
 
+    std::vector<QString> tempfullList=shuffle(fullList);
+
+
+    std::vector<QString> gridList=std::vector<QString>();
+    for(int a=0;a<15;a++){
+        gridList.push_back(tempfullList[a]);
+        gridList.push_back(tempfullList[a]);
+    }
+    gridList=shuffle(gridList);
 
 
     for(int row=0; row<5; row++){
         for(int col=0; col<6; col++){
-            Card *buttons = new Card(arr[row*6+col]);
+            Card *buttons = new Card(gridList[row*6+col]);
             QObject::connect(buttons, SIGNAL(clicked()), buttons, SLOT(onPressed()));
             QObject::connect(buttons, SIGNAL(clicked()), grid, SLOT(check_colors()));
             grid->addWidget(buttons, row, col, 1, 1);
@@ -66,3 +83,4 @@ int main(int argc, char *argv[])
 
     return app.exec();
 }
+
